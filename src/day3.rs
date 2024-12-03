@@ -19,11 +19,13 @@ pub fn solve_part1(path: &Path) -> anyhow::Result<()> {
     for mat in regex.find_iter(&input) {
         let value = mat.as_str();
         let value = &value[4..value.len() - 1];
-        let (x, y) = value.split_once(',').context("should be valid number pair")?;
+        let (x, y) = value
+            .split_once(',')
+            .context("should be valid number pair")?;
 
         let x = x.parse::<u32>()?;
         let y = y.parse::<u32>()?;
-        
+
         sum += x * y;
     }
 
@@ -37,23 +39,31 @@ pub fn solve_part2(path: &Path) -> anyhow::Result<()> {
     let regex = regex::Regex::new(r"(mul\(\d{1,3},\d{1,3}\)|do\(\)|don't\(\))")?;
 
     let mut enabled = true;
-    
+
     let mut sum = 0;
     for mat in regex.find_iter(&input) {
         let value = mat.as_str();
         match value {
-            "do()" => {enabled = true; continue;},
-            "don't()" => {enabled = false; continue;},
+            "do()" => {
+                enabled = true;
+                continue;
+            }
+            "don't()" => {
+                enabled = false;
+                continue;
+            }
             _ if !enabled => continue,
             _ => {}
         };
 
         let value = &value[4..value.len() - 1];
-        let (x, y) = value.split_once(',').context("should be valid number pair")?;
+        let (x, y) = value
+            .split_once(',')
+            .context("should be valid number pair")?;
 
         let x = x.parse::<u32>()?;
         let y = y.parse::<u32>()?;
-        
+
         sum += x * y;
     }
 
